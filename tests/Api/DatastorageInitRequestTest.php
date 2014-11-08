@@ -8,15 +8,12 @@ class DataStorageInitRequestTest extends \PHPUnit_Framework_TestCase
     /** @var DataStorageInitRequest */
     private $t;
 
+    private $mCurl;
+
     public function setup()
     {
-        $this->t = new DataStorageInitRequest();
-    }
-
-    public function testCustomerId()
-    {
-        $this->t->SetCustomerId('foo');
-        $this->assertEquals('foo', $this->t->GetCustomerId());
+        $this->mCurl = $this->getMock('Curl');
+        $this->t = new DataStorageInitRequest($this->mCurl);
     }
 
     public function testOrderIdent()
@@ -29,12 +26,6 @@ class DataStorageInitRequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->t->SetReturnUrl('foo');
         $this->assertEquals('foo', $this->t->GetReturnUrl());
-    }
-
-    public function testLanguage()
-    {
-        $this->t->SetLanguage('foo');
-        $this->assertEquals('foo', $this->t->GetLanguage());
     }
 
     public function testShopId()

@@ -2,10 +2,10 @@
 
 namespace at\externet\WirecardCheckoutSeamless\Api;
 
-class DataStorageInitRequest extends Request
+class DataStorageInitRequest extends WirecardRequest
 {
 
-    public function __construct()
+    public function __construct($curl = null)
     {
         $requiredOrder = array(
             'customerId' => true,
@@ -15,25 +15,7 @@ class DataStorageInitRequest extends Request
             'language' => true,
             'javascriptScriptVersion' => false
         );
-        parent::__construct('https://checkout.wirecard.com/seamless/dataStorage/init', $requiredOrder);
-    }
-
-    /**
-     * Unique ID of merchant.
-     * @param string $value Alphanumeric with a fixed length of 7.
-     */
-    public function SetCustomerId($value)
-    {
-        $this->Set('customerId', $value);
-    }
-
-    /**
-     * Unique ID of merchant.
-     * @return string
-     */
-    public function GetCustomerId()
-    {
-        return $this->Get('customerId');
+        parent::__construct('https://checkout.wirecard.com/seamless/dataStorage/init', $requiredOrder, $curl);
     }
 
     /**
@@ -56,6 +38,14 @@ class DataStorageInitRequest extends Request
 
     /**
      * Return URL for outdated browsers.
+     * Is used for browsers who are not capable of fully supporting
+     * CORS (Cross Origin Resource Sharing). In that case the communciation
+     * between the HTML page and the Wirecard Checkout Platform will be done
+     * within an iframe where the anonymized payment data is returned to
+     * JavaScript objects. This return URL is called by the browser of your
+     * consumer.
+     *
+     * You should point the URL to Frontend/CorsFallback.php
      * @param string $value Alphanumeric
      */
     public function SetReturnUrl($value)
@@ -70,24 +60,6 @@ class DataStorageInitRequest extends Request
     public function GetReturnUrl()
     {
         return $this->Get('returnUrl');
-    }
-
-    /**
-     * Language for returned texts and error messages.
-     * @param string $value Alphabetic with a fixed length of 2.
-     */
-    public function SetLanguage($value)
-    {
-        $this->Set('language', $value);
-    }
-
-    /**
-     * Language for returned texts and error messages.
-     * @return string 
-     */
-    public function GetLanguage()
-    {
-        return $this->Get('language');
     }
 
     /**
