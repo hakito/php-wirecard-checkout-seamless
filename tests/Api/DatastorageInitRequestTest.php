@@ -75,8 +75,26 @@ class DataStorageInitRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testSendRequest()
+    public function testSendMissingParameter()
     {
+        $this->setExpectedException('at\externet\WirecardCheckoutSeamless\Api\MissingRequiredParameterException');
+        $this->t->Send('topSecret');
+    }
 
+    public function testSendReturnsResponse()
+    {
+        $mResponse = new \CurlResponse("");
+        $this->mCurl->expects($this->once())
+                ->method('post')
+                ->will($this->returnValue($mResponse));
+        $this->t->SetShopId('myShop');
+        $this->t->SetJavascriptScriptVersion('jVersion');
+        $this->t->SetCustomerId('merchantId');
+        $this->t->SetOrderIdent('orderIdent');
+        $this->t->SetReturnUrl('returnUrl');
+        $this->t->SetLanguage('mylang');
+        $actual = $this->t->Send('topSecret');
+
+        $this->assertInstanceOf('at\externet\WirecardCheckoutSeamless\Api\DataStorageInitResponse', $actual);
     }
 }
