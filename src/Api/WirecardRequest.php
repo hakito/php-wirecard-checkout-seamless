@@ -7,7 +7,7 @@ abstract class WirecardRequest extends Request
 
     public function __construct($requestUrl, $requiredOrder, $curl = null)
     {
-        parent::__construct('https://checkout.wirecard.com/seamless/dataStorage/init', $requiredOrder, $curl);
+        parent::__construct($requestUrl, $requiredOrder, $curl);
     }
 
     /**
