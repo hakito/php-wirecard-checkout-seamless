@@ -70,6 +70,7 @@ class FrontendInitRequestTest extends \PHPUnit_Framework_TestCase
         $this->AssertGetterAndSetter('serviceUrl');
         $this->AssertGetterAndSetter('confirmUrl');
         $this->AssertGetterAndSetter('consumerIpAddress');
+        $this->AssertGetterAndSetter('consumerUserAgent');
         $this->AssertGetterAndSetter('financialInstitution');
         $this->AssertGetterAndSetter('pendingUrl');
         $this->AssertGetterAndSetter('noScriptInfoUrl');
