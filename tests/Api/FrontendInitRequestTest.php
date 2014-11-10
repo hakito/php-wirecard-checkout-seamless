@@ -56,4 +56,41 @@ class FrontendInitRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function testGettersAndSetters()
+    {
+        $this->AssertGetterAndSetter('customerId');
+        $this->AssertGetterAndSetter('language');
+        $this->AssertGetterAndSetter('paymentType');
+        $this->AssertGetterAndSetter('amount');
+        $this->AssertGetterAndSetter('currency');
+        $this->AssertGetterAndSetter('orderDescription');
+        $this->AssertGetterAndSetter('successUrl');
+        $this->AssertGetterAndSetter('cancelUrl');
+        $this->AssertGetterAndSetter('failureUrl');
+        $this->AssertGetterAndSetter('serviceUrl');
+        $this->AssertGetterAndSetter('confirmUrl');
+        $this->AssertGetterAndSetter('consumerIpAddress');
+        $this->AssertGetterAndSetter('financialInstitution');
+        $this->AssertGetterAndSetter('pendingUrl');
+        $this->AssertGetterAndSetter('noScriptInfoUrl');
+        $this->AssertGetterAndSetter('orderNumber');
+        $this->AssertGetterAndSetter('windowName');
+        $this->AssertGetterAndSetter('duplicateRequestCheck');
+        $this->AssertGetterAndSetter('customerStatement');
+        $this->AssertGetterAndSetter('orderReference');
+        $this->AssertGetterAndSetter('transactionIdentifier');
+        $this->AssertGetterAndSetter('orderIdent');
+        $this->AssertGetterAndSetter('storageId');
+    }
+
+    private function AssertGetterAndSetter($field, $value = 'v')
+    {
+        $pascalCase = strtoupper(substr($field,0,1)) . substr($field, 1);
+        $getter = 'Get' . $pascalCase;
+        $setter = 'Set' . $pascalCase;
+        $this->AssertNull($this->t->$getter());
+        $this->t->$setter($value);
+        $this->AssertEquals($value, $this->t->$getter());
+    }
+
 }
