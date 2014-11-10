@@ -9,7 +9,7 @@ class FrontendInitRequestTest extends \PHPUnit_Framework_TestCase
     private $t;
     private $mCurl;
 
-    public function setup()
+    public function setUp()
     {
         $this->mCurl = $this->getMock('Curl');
         $this->t = new FrontendInitRequest($this->mCurl);

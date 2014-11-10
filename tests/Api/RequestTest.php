@@ -12,7 +12,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     private $mCurl;
 
-    public function setup()
+    public function setUp()
     {
         $this->mCurl = $this->getMock('Curl');
         $this->t = new RequestMock('http://localhost', array('first' => false, 'second' => true), $this->mCurl);
