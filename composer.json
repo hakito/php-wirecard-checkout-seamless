@@ -13,7 +13,7 @@
         "shuber/curl": "dev-master"
     },
     "require-dev": {
-        "satooshi/php-coveralls": "0.6.1""
+        "satooshi/php-coveralls": "0.6.1"
     },
     "autoload": {
         "psr-4": {
