@@ -4,6 +4,7 @@ namespace at\externet\WirecardCheckoutSeamless\Api;
 
 class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
 {
+
     /** @var ConfirmationResponse */
     public $t;
 
@@ -34,16 +35,14 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
     public function testInitFromArrayInvalidMandatory1()
     {
         $this->setExpectedException(
-            '\InvalidArgumentException',
-            'Mandatory fields must be non-empty.');
+                '\InvalidArgumentException', 'Mandatory fields must be non-empty.');
         $this->t->InitFromArray(array('paymentState' => 'SUCCESS'), '');
     }
 
     public function testInitFromArrayInvalidMandatory2()
     {
         $this->setExpectedException(
-            '\InvalidArgumentException',
-            'Mandatory fields must be non-empty.');
+                '\InvalidArgumentException', 'Mandatory fields must be non-empty.');
         $data = array(
             'paymentState' => 'SUCCESS',
             'orderNumber' => '',
@@ -56,8 +55,7 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
     public function testInitFromArrayInvalidFingerprint()
     {
         $this->setExpectedException(
-            'at\externet\WirecardCheckoutSeamless\Api\InvalidFingerprintException',
-            'The verification of the response data was not successful.');
+                'at\externet\WirecardCheckoutSeamless\Api\InvalidFingerprintException', 'The verification of the response data was not successful.');
 
         $data = array(
             'paymentState' => 'SUCCESS',
@@ -73,9 +71,8 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
     public function testInitFromArrayNoSecretInFingerprint()
     {
         $this->setExpectedException(
-            'at\externet\WirecardCheckoutSeamless\Api\InvalidFingerprintException',
-            'The verification of the response data was not successful.');
-        
+                'at\externet\WirecardCheckoutSeamless\Api\InvalidFingerprintException', 'The verification of the response data was not successful.');
+
         $data = array(
             'paymentState' => 'SUCCESS',
             'orderNumber' => 'a',
@@ -100,6 +97,36 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->t->InitFromArray($data, 'TopSecret');
+    }
+
+    public function testGetters()
+    {
+        $container = &$this->t->GetContainerData();
+        $container['paymentState'] = 'a';
+        $container['financialInstitution'] = 'b';
+        $container['language'] = 'c';
+        $container['orderNumber'] = 'd';
+        $container['paymentType'] = 'e';
+        $container['responseFingerprint'] = 'f';
+        $container['responseFingerprintOrder'] = 'g';
+        $container['amount'] = 'h';
+        $container['currency'] = 'i';
+        $container['gatewayContractNumber'] = 'j';
+        $container['gatewayReferenceNumber'] = 'k';
+        $container['message'] = 'l';
+
+        $this->AssertEquals('a', $this->t->GetPaymentState());
+        $this->AssertEquals('b', $this->t->GetFinancialInstitution());
+        $this->AssertEquals('c', $this->t->GetLanguage());
+        $this->AssertEquals('d', $this->t->GetOrderNumber());
+        $this->AssertEquals('e', $this->t->GetPaymentType());
+        $this->AssertEquals('f', $this->t->GetResponseFingerPrint());
+        $this->AssertEquals('g', $this->t->GetResponseFingerprintOrder());
+        $this->AssertEquals('h', $this->t->GetAmount());
+        $this->AssertEquals('i', $this->t->GetCurrency());
+        $this->AssertEquals('j', $this->t->GetGatewayContractNumber());
+        $this->AssertEquals('k', $this->t->GetGatewayReferenceNumber());
+        $this->AssertEquals('l', $this->t->GetMessage());
     }
 
 }

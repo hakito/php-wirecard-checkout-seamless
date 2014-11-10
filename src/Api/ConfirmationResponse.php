@@ -104,7 +104,7 @@ class ConfirmationResponse extends DataContainer {
      */
     public function GetFinancialInstitution()
     {
-        return $this->Get('');
+        return $this->Get('financialInstitution');
     }
 
     /**
