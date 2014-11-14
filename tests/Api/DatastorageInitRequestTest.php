@@ -8,12 +8,13 @@ class DataStorageInitRequestTest extends \PHPUnit_Framework_TestCase
     /** @var DataStorageInitRequest */
     private $t;
 
-    private $mCurl;
+    /** @var \MockTransport */
+    private $mTransport;
 
     public function setUp()
     {
-        $this->mCurl = $this->getMock('Curl');
-        $this->t = new DataStorageInitRequest($this->mCurl);
+        $this->mTransport = new \MockTransport();
+        $this->t = new DataStorageInitRequest($this->mTransport);
     }
 
     public function testOrderIdent()
@@ -74,10 +75,6 @@ class DataStorageInitRequestTest extends \PHPUnit_Framework_TestCase
 
     public function testSendReturnsResponse()
     {
-        $mResponse = new \CurlResponse("");
-        $this->mCurl->expects($this->once())
-                ->method('post')
-                ->will($this->returnValue($mResponse));
         $this->t->SetShopId('myShop');
         $this->t->SetJavascriptScriptVersion('jVersion');
         $this->t->SetCustomerId('merchantId');

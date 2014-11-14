@@ -751,7 +751,7 @@ class FrontendInitRequest extends WirecardRequest
     public function Send($secret)
     {
         $response = new FrontendInitResponse();
-        $response->InitFromCurlResponse(parent::Send($secret));
+        $response->InitFromHttpResponse(parent::Send($secret));
         return $response;
     }
 

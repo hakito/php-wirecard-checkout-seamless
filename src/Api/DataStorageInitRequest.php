@@ -5,7 +5,7 @@ namespace at\externet\WirecardCheckoutSeamless\Api;
 class DataStorageInitRequest extends WirecardRequest
 {
 
-    public function __construct($curl = null)
+    public function __construct($transport = null)
     {
         $requiredOrder = array(
             'customerId' => true,
@@ -15,7 +15,7 @@ class DataStorageInitRequest extends WirecardRequest
             'language' => true,
             'javascriptScriptVersion' => false
         );
-        parent::__construct('https://checkout.wirecard.com/seamless/dataStorage/init', $requiredOrder, $curl);
+        parent::__construct('https://checkout.wirecard.com/seamless/dataStorage/init', $requiredOrder, $transport);
     }
 
     /**
@@ -106,7 +106,7 @@ class DataStorageInitRequest extends WirecardRequest
     public function Send($secret)
     {
         $response = new DataStorageInitResponse();
-        $response->InitFromCurlResponse(parent::Send($secret));
+        $response->InitFromHttpResponse(parent::Send($secret));
         return $response;
     }
 

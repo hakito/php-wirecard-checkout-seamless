@@ -7,25 +7,25 @@ abstract class Request extends DataContainer
     private $requiredOrder;
     private $requestUrl;
 
-    /** @var \Curl */
-    private $curl;
+    /** @var \Requests_Transport */
+    private $transport;
 
-    public function __construct($requestUrl, $requiredOrder, $curl = null)
+    public function __construct($requestUrl, $requiredOrder, $transport = null)
     {
+        $this->transport = $transport;
         $this->requestUrl = $requestUrl;
         $this->requiredOrder = $requiredOrder;
-        $this->curl = $curl == null ? new \Curl() : $curl;
-        $this->curl->options = array(
-            'PORT' => 443,
-            'PROTOCOLS' => CURLPROTO_HTTPS,
-            'SSL_VERIFYPEER' => true
-        );
     }
 
     protected function Send($secret) {
-        return $this->curl->post(
-            $this->GetRequestUrl(),
-            $this->GetParametersWithFingerprint($secret));
+        $options = $this->transport === null ? array() : array(
+                'transport' => $this->transport
+            );
+        return \Requests::post(
+                $this->GetRequestUrl(),
+                array(),
+                $this->GetParametersWithFingerprint($secret),
+                $options);
     }
 
     public function GetRequestUrl()

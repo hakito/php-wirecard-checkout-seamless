@@ -6,10 +6,10 @@ abstract class Response extends DataContainer {
 
     /**
      *
-     * @param \CurlResponse $curlResponse
+     * @param \Requests_Response $requestsResponse
      */
-    public function InitFromCurlResponse($curlResponse) {
-        $parts = explode('&', $curlResponse->body);
+    public function InitFromHttpResponse($requestsResponse) {
+        $parts = explode('&', $requestsResponse->body);
         foreach ($parts as &$part)
         {
             $pair = explode('=', $part);

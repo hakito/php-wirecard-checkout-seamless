@@ -10,43 +10,27 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     /** @var Request */
     private $t;
 
-    private $mCurl;
+    /** @var \MockTransport */
+    private $mTransport;
 
     public function setUp()
     {
-        $this->mCurl = $this->getMock('Curl');
-        $this->t = new RequestMock('http://localhost', array('first' => false, 'second' => true), $this->mCurl);
-    }
-
-    public function testCurlOpts()
-    {
-        // When
-        //$t = new RequestMock($this->mCurl);
-
-        // Then
-        $expected = array(
-            'PORT' => 443,
-            'PROTOCOLS' => CURLPROTO_HTTPS,
-            'SSL_VERIFYPEER' => true
-        );
-        $this->assertEquals($expected, $this->mCurl->options);
+        $this->mTransport = new \MockTransport();
+        $this->t = new RequestMock('http://localhost', array('first' => false, 'second' => true), $this->mTransport);
     }
 
     public function testSendRequest()
     {
         // Given
-        $mRequest = new RequestMock('url', array('first' => true), $this->mCurl);
+        $mRequest = new RequestMock('https://example.com', array('first' => true), $this->mTransport);
         $mRequest->Set('first', 'foo');
-        $this->mCurl->expects($this->once())
-                ->method('post')
-                ->with('url', $mRequest->GetParametersWithFingerprint('secret'), null)
-                ->will($this->returnValue('curlResponse'));
+        $this->mTransport->body = 'RequestResponse';
 
         // When
         $actual = $mRequest->Send('secret');
 
         // Then
-        $this->assertEquals('curlResponse', $actual);
+        $this->assertEquals('RequestResponse', $actual->body);
     }
 
     public function testGetParametersMissing()

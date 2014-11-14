@@ -7,12 +7,12 @@ class FrontendInitRequestTest extends \PHPUnit_Framework_TestCase
 
     /** @var FrontendInitRequest */
     private $t;
-    private $mCurl;
+    private $mTransport;
 
-    public function setUp()
+    public function setup()
     {
-        $this->mCurl = $this->getMock('Curl');
-        $this->t = new FrontendInitRequest($this->mCurl);
+        $this->mTransport = new \MockTransport();
+        $this->t = new FrontendInitRequest($this->mTransport);
     }
 
     public function testSendMissingParameters()

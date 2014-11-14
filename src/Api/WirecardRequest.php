@@ -5,9 +5,9 @@ namespace at\externet\WirecardCheckoutSeamless\Api;
 abstract class WirecardRequest extends Request
 {
 
-    public function __construct($requestUrl, $requiredOrder, $curl = null)
+    public function __construct($requestUrl, $requiredOrder, $transport = null)
     {
-        parent::__construct($requestUrl, $requiredOrder, $curl);
+        parent::__construct($requestUrl, $requiredOrder, $transport);
     }
 
     /**

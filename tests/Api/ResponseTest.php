@@ -2,7 +2,7 @@
 
 namespace at\externet\WirecardCheckoutSeamless\Api;
 
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'MockCurlResponse.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'MockRequestsResponse.php';
 
 class MockResponse extends Response
 {
@@ -22,28 +22,28 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->t = new MockResponse();
     }
 
-    public function testInitFromCurlResponse()
+    public function testInitFromHttpResponse()
     {
         // Given
-        $curlResponse = new MockCurlResponse();
-        $curlResponse->body = 'storageId=myStorage&javascriptUrl=jsUrl';
+        $requestsResponse = new MockRequests_Response();
+        $requestsResponse->body = 'storageId=myStorage&javascriptUrl=jsUrl';
 
         // When
-        $this->t->InitFromCurlResponse($curlResponse);
+        $this->t->InitFromHttpResponse($requestsResponse);
 
         // Then
         $this->assertEquals($this->t->Get('storageId'), 'myStorage');
         $this->assertEquals($this->t->Get('javascriptUrl'), 'jsUrl');
     }
 
-    public function testInitFromCurlResponseArray()
+    public function testInitFromHttpResponseArray()
     {
          // Given
-        $curlResponse = new MockCurlResponse();
-        $curlResponse->body = 'a.1.b=foo&a.1.c=bar';
+        $requestsResponse = new MockRequests_Response();
+        $requestsResponse->body = 'a.1.b=foo&a.1.c=bar';
 
         // When
-        $this->t->InitFromCurlResponse($curlResponse);
+        $this->t->InitFromHttpResponse($requestsResponse);
 
         // Then
         $expected = array('1' => array('b' => 'foo', 'c' => 'bar'));
@@ -54,8 +54,8 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     public function testErrorCountNoErrors()
     {
         // Given
-        $curlResponse = new MockCurlResponse();
-        $this->t->InitFromCurlResponse($curlResponse);
+        $requestsResponse = new MockRequests_Response();
+        $this->t->InitFromHttpResponse($requestsResponse);
 
         // When
         $actual = $this->t->GetErrors();
@@ -69,9 +69,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     public function testErrorCount()
     {
         // Given
-        $curlResponse = new MockCurlResponse();
-        $curlResponse->body = 'errors=5';
-        $this->t->InitFromCurlResponse($curlResponse);
+        $requestsResponse = new MockRequests_Response();
+        $requestsResponse->body = 'errors=5';
+        $this->t->InitFromHttpResponse($requestsResponse);
 
         // When
         $actual = $this->t->GetErrors();
@@ -83,13 +83,13 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     public function testErrorArray()
     {
         // Given
-        $curlResponse = new MockCurlResponse();
-        $curlResponse->body = 'error.1.errorCode=11500'
+        $requestsResponse = new MockRequests_Response();
+        $requestsResponse->body = 'error.1.errorCode=11500'
                 . '&error.1.message=CUSTOMERID+is+missing.'
                 . '&error.2.errorCode=11009'
                 . '&error.2.message=Language+is+missing.'
                 . '&errors=2';
-        $this->t->InitFromCurlResponse($curlResponse);
+        $this->t->InitFromHttpResponse($requestsResponse);
 
         // When
         $actual = $this->t->GetErrorArray();
