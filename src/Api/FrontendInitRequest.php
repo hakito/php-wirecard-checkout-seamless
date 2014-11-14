@@ -5,7 +5,7 @@ namespace at\externet\WirecardCheckoutSeamless\Api;
 class FrontendInitRequest extends WirecardRequest
 {
 
-    public function __construct()
+    public function __construct($transport = null)
     {
         $required = array(
             'customerId',
@@ -49,7 +49,7 @@ class FrontendInitRequest extends WirecardRequest
 
         $this->SetRequestFingerPrintOrder(join(',', array_merge($required, $optional)));
 
-        parent::__construct('https://checkout.wirecard.com/seamless/frontend/init', $requiredOrder);
+        parent::__construct('https://checkout.wirecard.com/seamless/frontend/init', $requiredOrder, $transport);
     }
 
     /**
