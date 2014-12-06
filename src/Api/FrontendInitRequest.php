@@ -47,7 +47,7 @@ class FrontendInitRequest extends WirecardRequest
             $requiredOrder[$o] = false;
         }
 
-        $this->SetRequestFingerPrintOrder(join(',', array_merge($required, $optional)));
+        $this->SetRequestFingerPrintOrder(join(',', array_merge($required, $optional, array('secret'))));
 
         parent::__construct('https://checkout.wirecard.com/seamless/frontend/init', $requiredOrder, $transport);
     }

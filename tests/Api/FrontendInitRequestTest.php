@@ -51,7 +51,8 @@ class FrontendInitRequestTest extends \PHPUnit_Framework_TestCase
                 . 'requestFingerprintOrder,financialInstitution,pendingUrl,'
                 . 'noScriptInfoUrl,orderNumber,windowName,'
                 . 'duplicateRequestCheck,customerStatement,orderReference,'
-                . 'transactionIdentifier,orderIdent,storageId';
+                . 'transactionIdentifier,orderIdent,storageId'
+                . ',secret'; // allways contains a secret
 
         $this->assertEquals($expected, $actual);
     }
