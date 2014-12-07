@@ -47,14 +47,18 @@ class FrontendInitRequestTest extends \PHPUnit_Framework_TestCase
         $actual = $this->t->GetRequestFingerPrintOrder();
         $expected = 'customerId,language,paymentType,amount,currency,'
                 . 'orderDescription,successUrl,cancelUrl,failureUrl,serviceUrl,'
-                . 'confirmUrl,consumerIpAddress,consumerUserAgent,'
-                . 'requestFingerprintOrder,financialInstitution,pendingUrl,'
-                . 'noScriptInfoUrl,orderNumber,windowName,'
-                . 'duplicateRequestCheck,customerStatement,orderReference,'
-                . 'transactionIdentifier,orderIdent,storageId'
+                . 'confirmUrl,consumerIpAddress,consumerUserAgent,requestFingerprintOrder'
                 . ',secret'; // allways contains a secret
 
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testGetRequestFingerprintOrderWithOptionalParameter()
+    {
+        $this->t->SetStorageId('fooBar');
+        $actual = $this->t->GetRequestFingerPrintOrder();
+
+        $this->assertContains('storageId', $actual);
     }
 
     public function testGettersAndSetters()
@@ -83,6 +87,19 @@ class FrontendInitRequestTest extends \PHPUnit_Framework_TestCase
         $this->AssertGetterAndSetter('transactionIdentifier');
         $this->AssertGetterAndSetter('orderIdent');
         $this->AssertGetterAndSetter('storageId');
+    }
+
+    public function testGetParameters()
+    {
+        $container = &$this->t->GetContainerData();
+        $fingerprintOrder = $this->t->GetRequestFingerPrintOrder();
+        $staticParams = explode(',', str_replace(',requestFingerprintOrder', '', $fingerprintOrder));
+        foreach($staticParams as $staticParam)
+            $container[$staticParam] = $staticParam;
+
+        $actual = $this->t->GetParameters();
+        $this->assertContains('requestFingerprintOrder', array_keys($actual));
+        $this->assertNotEmpty($actual['requestFingerprintOrder']);
     }
 
     private function AssertGetterAndSetter($field, $value = 'v')

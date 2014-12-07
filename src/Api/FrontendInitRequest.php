@@ -47,18 +47,25 @@ class FrontendInitRequest extends WirecardRequest
             $requiredOrder[$o] = false;
         }
 
-        $this->SetRequestFingerPrintOrder(join(',', array_merge($required, $optional, array('secret'))));
-
         parent::__construct('https://checkout.wirecard.com/seamless/frontend/init', $requiredOrder, $transport);
     }
 
-    /**
-     * Ordered list of parameters used for calculating the fingerprint.
-     * @param string $value Alphanumeric with special characters.
-     */
-    private function SetRequestFingerPrintOrder($value)
+    protected function Get($name)
     {
-        $this->Set('requestFingerprintOrder', $value);
+        if ($name === 'requestFingerprintOrder')
+        {
+            $fingerprintOrder = array();
+            foreach ($this->requiredOrder as $key => $val)
+            {
+                if ($val || $this->Get($key) !== null)
+                {
+                    $fingerprintOrder[] = $key;
+                }
+            }
+            $fingerprintOrder[] = 'secret';
+            return join(',', $fingerprintOrder);
+        }
+        return parent::Get($name);
     }
 
     /**

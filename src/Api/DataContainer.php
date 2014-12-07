@@ -8,7 +8,8 @@ abstract class DataContainer extends \at\externet\WirecardCheckoutSeamless\Utili
 
     protected function IsEmpty($name)
     {
-        return empty($this->data[$name]);
+        $ret = $this->Get($name);
+        return empty($ret);
     }
 
     protected function Set($name, $value)

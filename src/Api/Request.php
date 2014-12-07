@@ -4,7 +4,7 @@ namespace at\externet\WirecardCheckoutSeamless\Api;
 
 abstract class Request extends DataContainer
 {
-    private $requiredOrder;
+    protected $requiredOrder;
     private $requestUrl;
 
     /** @var \Requests_Transport */
@@ -38,12 +38,12 @@ abstract class Request extends DataContainer
         $ret = array();
         foreach($this->requiredOrder as $key => $val)
         {
-            $empty = parent::IsEmpty($key);
+            $empty = $this->IsEmpty($key);
             if ($val && $empty)
                 throw new MissingRequiredParameterException("Missing required parameter '$key'.");
 
             if (!$empty)
-                $ret[$key] = parent::Get($key);
+                $ret[$key] = $this->Get($key);
         }
         return $ret;
     }
