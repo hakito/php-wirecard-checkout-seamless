@@ -87,6 +87,11 @@ class FrontendInitRequestTest extends \PHPUnit_Framework_TestCase
         $this->AssertGetterAndSetter('transactionIdentifier');
         $this->AssertGetterAndSetter('orderIdent');
         $this->AssertGetterAndSetter('storageId');
+
+        // Optional parameters enabled by Wirecard on your behalf
+        $this->AssertGetterAndSetter('autoDeposit');
+        $this->AssertGetterAndSetter('confirmMail');
+        $this->AssertGetterAndSetter('shopId');
     }
 
     public function testGetParameters()

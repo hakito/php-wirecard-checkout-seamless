@@ -33,7 +33,10 @@ class FrontendInitRequest extends WirecardRequest
             'orderReference',
             'transactionIdentifier',
             'orderIdent',
-            'storageId'
+            'storageId',
+            'autoDeposit',
+            'confirmMail',
+            'shopId'
         );
 
         $requiredOrder = array();
@@ -748,6 +751,97 @@ class FrontendInitRequest extends WirecardRequest
     public function SetStorageId($value)
     {
         $this->Set('storageId', $value);
+    }
+
+    /**
+     * Enable automated debiting of payments.
+     *
+     * After a consumer has successfully completed a payment in your online shop,
+     * this payment - depending on the payment method - is only
+     * approved (authorized) and not yet deposited (captured).
+     *
+     * @return string
+     */
+    public function GetAutoDeposit()
+    {
+        return $this->Get('autoDeposit');
+    }
+
+    /**
+     * OPTIONAL.
+     * Enable automated debiting of payments.
+     *
+     * After a consumer has successfully completed a payment in your online shop,
+     * this payment - depending on the payment method - is only
+     * approved (authorized) and not yet deposited (captured).
+     *
+     * @param string $value "yes" or "no"
+     */
+    public function SetAutoDeposit($value)
+    {
+        $this->Set('autoDeposit', $value);
+    }
+
+    /**
+     * One payment confirmation mail address for the merchant.
+     *
+     * Contains one (exactly one) e-mail address of the merchant for receiving
+     * payment information details regarding the orders of the consumers in your
+     * online shop. This e-mail may contain information about payment state,
+     * order number, payment method, payment amount and payment currency.
+     *
+     * @return string
+     */
+    public function GetConfirmMail()
+    {
+        return $this->Get('confirmMail');
+    }
+
+    /**
+     * OPTIONAL.
+     * One payment confirmation mail address for the merchant.
+     *
+     * Contains one (exactly one) e-mail address of the merchant for receiving
+     * payment information details regarding the orders of the consumers in your
+     * online shop. This e-mail may contain information about payment state,
+     * order number, payment method, payment amount and payment currency.
+     *
+     * @param string $value email address
+     */
+    public function SetConfirmMail($value)
+    {
+        $this->Set('confirmMail', $value);
+    }
+
+    /**
+     * Unique ID of your online shop within your customer ID to enable various
+     * configurations of your online shop.
+     *
+     * Contains the unique identifier for your online shop within your customerId.
+     * This is used if you have multiple online shops or one online shop with
+     * multiple configurations within one customerId.
+     *
+     * @return string
+     */
+    public function GetShopId()
+    {
+        return $this->Get('shopId');
+    }
+
+    /**
+     * OPTIONAL.
+     * Unique ID of your online shop within your customer ID to enable various
+     * configurations of your online shop.
+     *
+     * Contains the unique identifier for your online shop within your customerId.
+     * This is used if you have multiple online shops or one online shop with
+     * multiple configurations within one customerId.
+     *
+     * @param string $value Alphanumeric with a fixed length of 16.
+     */
+    public function SetShopId($value)
+    {
+        $this->Set('shopId', $value);
     }
 
     /**
