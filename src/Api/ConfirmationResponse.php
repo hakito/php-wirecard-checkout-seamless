@@ -16,7 +16,7 @@ class ConfirmationResponse extends Response {
      * @throws \InvalidArgumentException when mandatory fields are missing
      * @throws InvalidFingerprintException when fingerprint validation fails
      */
-    public function InitFromArray($data, $secret) {
+    public function InitFromArrayWithSecret($data, $secret) {
         
         if (!isset($data['paymentState']))
         {
@@ -31,7 +31,7 @@ class ConfirmationResponse extends Response {
             . $paymentState . '".');
         }
 
-        parent::InitFromArray($data);
+        $this->InitFromArray($data);
 
         if ($this->GetPaymentState() != 'SUCCESS')
         {

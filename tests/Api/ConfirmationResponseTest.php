@@ -16,12 +16,12 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
     public function testInitFromArrayEmpty()
     {
         $this->setExpectedException('\InvalidArgumentException');
-        $this->t->InitFromArray(array(), '');
+        $this->t->InitFromArrayWithSecret(array(), '');
     }
 
     public function testInitFromArrayCancel()
     {
-        $this->t->InitFromArray(array('paymentState' => 'CANCEL'), '');
+        $this->t->InitFromArrayWithSecret(array('paymentState' => 'CANCEL'), '');
         $actual = $this->t->GetPaymentState();
         $this->assertEquals('CANCEL', $actual);
     }
@@ -29,14 +29,14 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
     public function testInitFromArrayInvalidPaymentState()
     {
         $this->setExpectedException('\InvalidArgumentException');
-        $this->t->InitFromArray(array('paymentState' => 'FOO'), '');
+        $this->t->InitFromArrayWithSecret(array('paymentState' => 'FOO'), '');
     }
 
     public function testInitFromArrayInvalidMandatory1()
     {
         $this->setExpectedException(
                 '\InvalidArgumentException', 'Mandatory fields must be non-empty.');
-        $this->t->InitFromArray(array('paymentState' => 'SUCCESS'), '');
+        $this->t->InitFromArrayWithSecret(array('paymentState' => 'SUCCESS'), '');
     }
 
     public function testInitFromArrayInvalidMandatory2()
@@ -49,7 +49,7 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
             'paymentType' => '',
         );
 
-        $this->t->InitFromArray($data, '');
+        $this->t->InitFromArrayWithSecret($data, '');
     }
 
     public function testInitFromArrayInvalidFingerprint()
@@ -65,7 +65,7 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
             'responseFingerprint' => 'invalidFingerprint'
         );
 
-        $this->t->InitFromArray($data, '');
+        $this->t->InitFromArrayWithSecret($data, '');
     }
 
     public function testInitFromArrayNoSecretInFingerprint()
@@ -82,7 +82,7 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
             'responseFingerprint' => hash("sha512", 'SUCCESSab')
         );
 
-        $this->t->InitFromArray($data, 'TopSecret');
+        $this->t->InitFromArrayWithSecret($data, 'TopSecret');
     }
 
     public function testInitFromArrayValidFingerprint()
@@ -96,7 +96,7 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
             'responseFingerprint' => hash("sha512", 'SUCCESSaTopSecretb')
         );
 
-        $this->t->InitFromArray($data, 'TopSecret');
+        $this->t->InitFromArrayWithSecret($data, 'TopSecret');
     }
 
     public function testInitFromArrayWithErrors()
@@ -113,7 +113,7 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
             'responseFingerprint' => hash("sha512", 'FAILUREaTopSecretb')
         );
 
-        $this->t->InitFromArray($data, 'TopSecret');
+        $this->t->InitFromArrayWithSecret($data, 'TopSecret');
         $errors = $this->t->GetErrorArray();
 
         $this->assertEquals(1, $this->t->GetErrors());
@@ -140,7 +140,7 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
             'responseFingerprint' => hash("sha512", 'FAILUREaTopSecretb')
         );
 
-        $this->t->InitFromArray($data, 'TopSecret');
+        $this->t->InitFromArrayWithSecret($data, 'TopSecret');
         $errors = $this->t->GetErrorArray();
 
         $this->assertEquals(1, $this->t->GetErrors());
