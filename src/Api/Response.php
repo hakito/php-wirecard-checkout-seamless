@@ -4,20 +4,10 @@ namespace at\externet\WirecardCheckoutSeamless\Api;
 
 abstract class Response extends DataContainer {
 
-    /**
-     *
-     * @param \Requests_Response $requestsResponse
-     */
-    public function InitFromHttpResponse($requestsResponse) {
-        $parts = explode('&', $requestsResponse->body);
-        foreach ($parts as &$part)
+    public function InitFromArray($data)
+    {
+        foreach ($data as $key => $val)
         {
-            $pair = explode('=', $part);
-            if (sizeof($pair) != 2)
-                continue;
-
-            $key = urldecode($pair[0]);
-            $val = urldecode($pair[1]);
             $keyParts = explode('.', $key);
             if (sizeof($keyParts) == 1)
                 $this->Set($key, $val);
@@ -37,11 +27,31 @@ abstract class Response extends DataContainer {
                         $t[$k] = null;
                     $t = &$t[$k];
                 }
-                
+
                 $t = $val;
                 $this->Set($key, $target);
             }
         }
+    }
+
+    /**
+     *
+     * @param \Requests_Response $requestsResponse
+     */
+    public function InitFromHttpResponse($requestsResponse) {
+        $parts = explode('&', $requestsResponse->body);
+        $dataArray = array();
+
+        foreach ($parts as &$part)
+        {
+            $pair = explode('=', $part);
+            if (sizeof($pair) != 2)
+                continue;
+
+            $dataArray[urldecode($pair[0])] = urldecode($pair[1]);
+        }
+
+        $this->InitFromArray($dataArray);
     }
 
     /**
@@ -59,8 +69,8 @@ abstract class Response extends DataContainer {
      */
     public function GetErrorArray()
     {
-     //   if ($this->IsEmpty('error'))
-     //       return array();
+        if ($this->IsEmpty('error'))
+            return array();
         $ret = array();
         foreach ($this->Get('error') as $key => $errorData)
         {
