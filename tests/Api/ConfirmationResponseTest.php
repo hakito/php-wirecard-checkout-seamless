@@ -120,6 +120,33 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Err PaySysMessage', $errors[1]->GetPaySysMessage());
     }
 
+    /**
+     * This is nescessary. At least in demo mode occurred errors with underscores.
+     * error_1_message instead of error.1.message as documented.
+     *
+     * https://integration.wirecard.at/doku.php/response_parameters#response_parameters_which_will_be_returned_in_case_of_a_failure
+     */
+    public function testInitFromArrayWithErrorsSeparatedByUnderscore()
+    {
+        $data = array(
+            'paymentState' => 'FAILURE',
+            'orderNumber' => 'a',
+            'paymentType' => 'b',
+            'error_1_message' => 'Err Message',
+            'error_1_consumerMessage' => 'Err ConsumerMessage',
+            'error_1_paySysMessage' => 'Err PaySysMessage',
+            'errors' => '1',
+            'responseFingerprintOrder' => 'paymentState,orderNumber,secret,paymentType',
+            'responseFingerprint' => hash("sha512", 'FAILUREaTopSecretb')
+        );
+
+        $this->t->InitFromArray($data, 'TopSecret');
+        $errors = $this->t->GetErrorArray();
+
+        $this->assertEquals(1, $this->t->GetErrors());
+        $this->assertEquals('Err PaySysMessage', $errors[1]->GetPaySysMessage());
+    }
+
     public function testGetters()
     {
         $container = &$this->t->GetContainerData();

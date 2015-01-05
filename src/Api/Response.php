@@ -9,6 +9,13 @@ abstract class Response extends DataContainer {
         foreach ($data as $key => $val)
         {
             $keyParts = explode('.', $key);
+
+            // Splitting keyparts also by underscore because of a possible failure in the wirecard documentation
+            // https://integration.wirecard.at/doku.php/response_parameters#response_parameters_which_will_be_returned_in_case_of_a_failure
+            // The errors in ConfirmationResponse seem to be separated by underscores.
+            if (sizeof($keyParts) == 1)
+                $keyParts = explode ('_', $key);
+
             if (sizeof($keyParts) == 1)
                 $this->Set($key, $val);
             else
