@@ -2,7 +2,7 @@
 
 namespace at\externet\WirecardCheckoutSeamless\Api;
 
-class ConfirmationResponse extends DataContainer {
+class ConfirmationResponse extends Response {
 
     private static $mandatoryFingerPrintFields = array(
         'paymentState', 'orderNumber', 'orderNumber'
