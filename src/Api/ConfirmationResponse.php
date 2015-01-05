@@ -31,10 +31,7 @@ class ConfirmationResponse extends Response {
             . $paymentState . '".');
         }
 
-        foreach ($data as $name => $value)
-        {
-            $this->Set($name, $value);
-        }
+        parent::InitFromArray($data);
 
         if ($this->GetPaymentState() != 'SUCCESS')
         {

@@ -99,6 +99,27 @@ class ConfirmationResponseTest extends \PHPUnit_Framework_TestCase
         $this->t->InitFromArray($data, 'TopSecret');
     }
 
+    public function testInitFromArrayWithErrors()
+    {
+        $data = array(
+            'paymentState' => 'FAILURE',
+            'orderNumber' => 'a',
+            'paymentType' => 'b',
+            'error.1.message' => 'Err Message',
+            'error.1.consumerMessage' => 'Err ConsumerMessage',
+            'error.1.paySysMessage' => 'Err PaySysMessage',
+            'errors' => '1',
+            'responseFingerprintOrder' => 'paymentState,orderNumber,secret,paymentType',
+            'responseFingerprint' => hash("sha512", 'FAILUREaTopSecretb')
+        );
+
+        $this->t->InitFromArray($data, 'TopSecret');
+        $errors = $this->t->GetErrorArray();
+
+        $this->assertEquals(1, $this->t->GetErrors());
+        $this->assertEquals('Err PaySysMessage', $errors[1]->GetPaySysMessage());
+    }
+
     public function testGetters()
     {
         $container = &$this->t->GetContainerData();
