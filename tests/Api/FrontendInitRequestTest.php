@@ -11,7 +11,7 @@ class FrontendInitRequestTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->mTransport = new \MockTransport();
+        $this->mTransport = new MockTransport();
         $this->t = new FrontendInitRequest($this->mTransport);
     }
 

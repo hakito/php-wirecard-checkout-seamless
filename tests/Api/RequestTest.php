@@ -10,12 +10,12 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     /** @var Request */
     private $t;
 
-    /** @var \MockTransport */
+    /** @var MockTransport */
     private $mTransport;
 
     public function setUp()
     {
-        $this->mTransport = new \MockTransport();
+        $this->mTransport = new MockTransport();
         $this->t = new RequestMock('http://localhost', array('first' => false, 'second' => true), $this->mTransport);
     }
 

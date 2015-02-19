@@ -8,12 +8,12 @@ class DataStorageInitRequestTest extends \PHPUnit_Framework_TestCase
     /** @var DataStorageInitRequest */
     private $t;
 
-    /** @var \MockTransport */
+    /** @var MockTransport */
     private $mTransport;
 
     public function setUp()
     {
-        $this->mTransport = new \MockTransport();
+        $this->mTransport = new MockTransport();
         $this->t = new DataStorageInitRequest($this->mTransport);
     }
 

@@ -1,6 +1,8 @@
 <?php
 
-class MockTransport implements Requests_Transport {
+namespace at\externet\WirecardCheckoutSeamless\Api;
+
+class MockTransport implements \Requests_Transport {
 	public $code = 200;
 	public $chunked = false;
 	public $body = 'Test Body';
